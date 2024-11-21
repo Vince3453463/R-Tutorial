@@ -1,0 +1,146 @@
+---
+title: "Apply"
+author: "Vincent Schroeder"
+date: "2024-11-21"
+output: pdf_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# 1. apply()
+Purpose: Used to apply a function to the rows or columns of a matrix or 2D array.
+
+Syntax: apply(X, MARGIN, FUN, ...)
+
+X: The matrix or array.
+MARGIN: 1 for rows, 2 for columns.
+FUN: The function to apply.
+Example: Calculate the row sums of a matrix.
+
+
+```{r}
+mat <- matrix(1:9, nrow = 3)
+print(mat)
+paste("rowsum:", apply(mat, 1, sum))  # Sum across rows
+paste("colsums:", apply(mat, 2, sum))  # Sum across rows
+```
+
+# 2. lapply()
+Purpose: Applies a function to each element of a list and returns a list.
+
+Syntax: lapply(X, FUN, ...)
+
+X: A list or vector.
+FUN: The function to apply.
+Example: Square each element in a list.
+
+```{r}
+lst <- list(1, 2, 3)
+print(lapply(lst, function(x) x^2))
+print(unlist(lapply(lst, function(x) x^2)))
+
+```
+
+# 3. sapply()
+Purpose: Simplified version of lapply() that tries to simplify the result to a vector or matrix, if possible.
+
+Syntax: sapply(X, FUN, ..., simplify = TRUE)
+
+X: A list or vector.
+FUN: The function to apply.
+Example: Get the length of each element in a list.
+
+```{r}
+lst <- list(c(1, 2), c(3, 4, 5), 6, 3:55)
+print(sapply(lst, length))
+
+vct = c(list(1:4), list(3:77))
+print(sapply(vct, length))
+```
+# 4. vapply()
+Purpose: Similar to sapply(), but it allows the user to predefine the return type, making it safer by preventing unintended simplification.
+
+Syntax: vapply(X, FUN, FUN.VALUE, ..., USE.NAMES = TRUE)
+
+X: A list or vector.
+FUN: The function to apply.
+FUN.VALUE: A template for the output type.
+Example: Get the length of each element in a list, returning a vector of a specific type.
+
+```{r}
+lst <- list(c(1, 2), c(3, 4, 5), 6)
+vapply(lst, length, FUN.VALUE = integer(1))
+
+```
+
+# 5. mapply()
+Purpose: Multivariate version of sapply(). It applies a function to the corresponding elements of multiple lists or vectors.
+
+Syntax: mapply(FUN, ..., MoreArgs = NULL)
+
+FUN: The function to apply.
+...: Lists or vectors.
+MoreArgs: Additional arguments passed to the function.
+Example: Add corresponding elements of two vectors.
+
+```{r}
+vec1 <- c(1, 2, 3)
+vec2 <- c(4, 5, 6)
+mapply(sum, vec1, vec2)
+
+```
+
+# 6. tapply()
+Purpose: Applies a function over subsets of a vector, grouped by another vector (factor or categorical data).
+
+Syntax: tapply(X, INDEX, FUN, ...)
+
+X: The vector.
+INDEX: The grouping factor or categorical variable.
+FUN: The function to apply.
+Example: Calculate the mean of a numeric vector grouped by a factor.
+
+```{r}
+values <- c(1, 2, 3, 4, 5, 6)
+groups <- factor(c('A', 'A', 'B', 'B', 'B', 'A'))
+tapply(values, groups, mean)
+
+```
+# 7. rapply()
+Purpose: Recursive version of lapply(), applying a function to each element of a list, including elements of nested lists.
+
+Syntax: rapply(X, FUN, classes = "ANY", how = "replace", ...)
+
+X: The list or nested list.
+FUN: The function to apply.
+classes: Specify the class to apply the function to.
+how: Whether to "replace" or "list" the results.
+Example: Apply the sqrt() function to all numeric elements in a nested list.
+
+```{r}
+nested_lst <- list(a = 1:3, b = list(c = 4:6, d = 7))
+rapply(nested_lst, sqrt, classes = "numeric", how = "replace")
+
+```
+
+# 8. eapply()
+Purpose: Applies a function to each element in an environment.
+
+Syntax: eapply(env, FUN, ...)
+
+env: The environment.
+FUN: The function to apply.
+Example: List all objects in the environment and their lengths.
+
+```{r}
+e <- new.env()
+e$a <- 1:3
+e$b <- 4:63
+eapply(e, length)
+
+```
+
