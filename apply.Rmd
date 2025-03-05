@@ -140,7 +140,35 @@ Example: List all objects in the environment and their lengths.
 e <- new.env()
 e$a <- 1:3
 e$b <- 4:63
-eapply(e, length)
+e$c = c(1, 2, 3, NA, 4, 5)
+eapply(e, mean, na.rm = T)
 
+```
+
+
+# 9 typeapply()
+
+Purpose: Applies a function to each element in an list with a specified type
+
+Syntax: typeapply(li, fun, type, ...)
+
+li: The list to apply the function on each element. Can be a dataframe to perform column wise operations
+FUN: The function to apply.
+...: Further arguments for the function
+Example: Mean standardise all columns in the iris dataframe, ignoring NAs
+
+
+```{r}
+typeapply = function(li, fun, type, ...) {
+  for (i in seq_along(li))
+    if (typeof(li[[i]]) == type)
+      li[[i]] = fun(li[[i]], ...)
+    li
+}
+
+df = iris
+df[1,1] = NA
+typeapply(df, function(x) x - mean(x, na.rm = T), "double")
+#typeapply(df, function(x) x - mean(x), "double")
 ```
 

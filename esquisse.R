@@ -1,0 +1,5 @@
+install.packages('esquisse')
+install.packages('accordion')
+install.packages('rvg')
+devtools::install_github("dreamRs/esquisse")
+library(esquisse)
